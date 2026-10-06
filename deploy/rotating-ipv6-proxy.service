@@ -1,0 +1,36 @@
+[Unit]
+Description=Authenticated rotating IPv6 forward proxy
+Wants=network-online.target
+Requires=rotating-ipv6-proxy-network.service
+After=network-online.target rotating-ipv6-proxy-network.service
+
+[Service]
+Type=simple
+DynamicUser=yes
+EnvironmentFile=/etc/rotating-ipv6-proxy.env
+ExecStart=/usr/local/bin/rotating-ipv6-proxy
+Restart=on-failure
+RestartSec=2s
+TimeoutStopSec=20s
+LimitNOFILE=65536
+UMask=0077
+
+NoNewPrivileges=yes
+PrivateDevices=yes
+PrivateTmp=yes
+ProtectClock=yes
+ProtectControlGroups=yes
+ProtectHome=yes
+ProtectHostname=yes
+ProtectKernelLogs=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectSystem=strict
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictRealtime=yes
+SystemCallArchitectures=native
+
+[Install]
+WantedBy=multi-user.target

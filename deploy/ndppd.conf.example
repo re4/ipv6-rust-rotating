@@ -1,0 +1,12 @@
+# Only needed when the provider puts the subnet directly on-link instead of
+# routing it to the VPS. Replace eth0 and the prefix, then review your provider's
+# network documentation before enabling ndppd.
+proxy eth0 {
+    router yes
+    timeout 500
+    ttl 30000
+
+    rule 2001:db8:1234:5678::/64 {
+        static
+    }
+}

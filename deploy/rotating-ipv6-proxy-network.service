@@ -1,0 +1,21 @@
+[Unit]
+Description=Local route for the rotating IPv6 proxy subnet
+Wants=network-online.target
+After=network-online.target
+Before=rotating-ipv6-proxy.service
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/rotating-ipv6-proxy.env
+ExecStart=/usr/sbin/ip -6 route replace local ${R6P_IPV6_PREFIX} dev lo table local
+RemainAfterExit=yes
+NoNewPrivileges=yes
+ProtectHome=yes
+ProtectSystem=strict
+PrivateTmp=yes
+RestrictAddressFamilies=AF_NETLINK AF_INET6
+CapabilityBoundingSet=CAP_NET_ADMIN
+AmbientCapabilities=CAP_NET_ADMIN
+
+[Install]
+WantedBy=multi-user.target
